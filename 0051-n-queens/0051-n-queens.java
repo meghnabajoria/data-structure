@@ -7,22 +7,31 @@ class Solution {
                 board[i][j] = '.';
             }
         }
-        recursion(board, 0, ans);
+        int leftRow[] = new int[n];
+        int upperDiagonal[] = new int[2 * n - 1];
+        int lowerDiagonal[] = new int[2 * n - 1];
+        recursion(board, 0, ans,leftRow, lowerDiagonal, upperDiagonal);
         return ans;
     }
     
-    private void recursion(char[][] board, int col, List<List<String>> ans) {
+    private void recursion(char[][] board, int col, List<List<String>> ans, int leftRow[], int lowerDiagonal[], int upperDiagonal[]) {
         
         if(col >= board.length) {
             ans.add(makeIntoList(board));
             return;
         }
         
-        for(int row = 0; row < board.length; row++) {
-            if(isSafe(row,col,board)) {
+        for (int row = 0; row < board.length; row++) {
+            if (leftRow[row] == 0 && lowerDiagonal[row + col] == 0 && upperDiagonal[board.length - 1 + col - row] == 0) {
                 board[row][col] = 'Q';
-                recursion(board, col+1, ans);
+                leftRow[row] = 1;
+                lowerDiagonal[row + col] = 1;
+                upperDiagonal[board.length - 1 + col - row] = 1;
+                recursion(board, col + 1, ans, leftRow, lowerDiagonal, upperDiagonal);
                 board[row][col] = '.';
+                leftRow[row] = 0;
+                lowerDiagonal[row + col] = 0;
+                upperDiagonal[board.length - 1 + col - row] = 0;
             }
         }
     }
