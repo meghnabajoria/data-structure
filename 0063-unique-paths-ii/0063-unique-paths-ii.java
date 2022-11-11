@@ -2,29 +2,31 @@ class Solution {
     public int uniquePathsWithObstacles(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
-        int[][] dp = new int[grid.length][grid[0].length];
+        int[] prev = new int[m];
         for(int i=0;i<m;i++) {
+            int[] curr = new int[n];
             for(int j=0;j<n;j++) {
                 if(grid[i][j] == 1) {
-                    dp[i][j] = 0;
+                    curr[j] = 0;
                     continue;
                 }
                 else if(i == 0 && j == 0) {
-                    dp[i][j] = 1;
+                    curr[j] = 1;
                     continue;
                 }
                 
                 int up = 0;
                 int left = 0;
                 if(i-1>=0) {
-                    up = dp[i-1][j];
+                    up = prev[j];
                 }
                 if(j-1>=0) {
-                    left = dp[i][j-1]; 
+                    left = curr[j-1]; 
                 }
-                dp[i][j] = up + left;
+                curr[j] = up + left;
             }
+            prev = curr;
         }
-        return dp[m-1][n-1];
+        return prev[n-1];
     }
 }
