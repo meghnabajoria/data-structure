@@ -16,18 +16,16 @@ class Solution {
                     continue;
                 }
                 
-                int up = 0;
-                int left =0;
+                int up = Integer.MAX_VALUE;
+                int left = Integer.MAX_VALUE;
                 
                 if(i>0)
                     up = grid[i][j] + dp[i-1][j];
-                else
-                    up = Integer.MAX_VALUE;
+
                 
                 if(j>0)
                     left = grid[i][j] + dp[i][j-1];
-                else
-                    left = Integer.MAX_VALUE;
+ 
                 dp[i][j] = Math.min(up,left);
             }
         } 
