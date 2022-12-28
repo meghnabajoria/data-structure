@@ -1,3 +1,5 @@
+// see this solution https://leetcode.com/problems/maximum-score-words-formed-by-letters/discuss/883660/Java-backtracking-(full-search)-top-down-memoization-and-bottom-up-DP
+
 class Solution {
     public int maxScoreWords(String[] words, char[] letters, int[] score) {
     int[] letterCounts = new int[26];
