@@ -42,17 +42,6 @@ class Item {
 }
 */
 
-class itemComparator implements Comparator<Item> {
-    @Override
-    public int compare(Item a, Item b) {
-        double r1 = (double)a.value / (double)a.weight;
-        double r2 = (double)b.value / (double)b.weight;
-        if(r1 < r2) return 1;
-        else if(r1 > r2) return -1;
-        else return 0;
-    }
-}
-
 class Solution
 {
     //Function to get the maximum total value in the knapsack.
@@ -60,21 +49,37 @@ class Solution
     {
         // Your code here
         Arrays.sort(arr, new itemComparator());
-        
         int curWeight = 0;
-        double finalValue = 0.0;
+        double finalValue = 0;
+        double fractionalValue = 0;
+    
         
-        for(int i=0;i<n;i++) {
-            if(curWeight + arr[i].weight <= W) {
-                curWeight += arr[i].weight;
-                finalValue += arr[i].value;
+        for(int i=0;i<arr.length;i++){
+            if(arr[i].weight + curWeight < W) {
+                curWeight = curWeight + arr[i].weight;
+                finalValue = finalValue + arr[i].value;
+                //System.out.println("1. value = " + finalValue);
             }
-            else {
-                int remain = W - curWeight;
-                finalValue = finalValue + ((double)arr[i].value / (double)arr[i].weight) * (double)remain;
-                break;
+            else if(curWeight < W) {
+                
+                fractionalValue = ((double)(W - curWeight) * (double)arr[i].value) / (double)arr[i].weight;
+                curWeight += W-curWeight;
+                //System.out.println("2. fractionalValue = " + fractionalValue);
+                finalValue = finalValue + fractionalValue;
             }
         }
         return finalValue;
+    }
+}
+
+class itemComparator implements Comparator<Item> {
+    @Override
+    public int compare(Item a, Item b) {
+        double r1 = (double)(a.value) / (double)(a.weight);
+        double r2 = (double)(b.value) / (double)(b.weight);
+        
+        if(r1 < r2) return 1;
+        else if(r2 < r1) return -1;
+        else return 0;
     }
 }
