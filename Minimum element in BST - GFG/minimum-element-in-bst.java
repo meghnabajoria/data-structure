@@ -111,10 +111,10 @@ class Tree {
             node = node.left;
             min = Math.min(min, node.data);
         }
-         while(node.right != null && node.right.data < node.data) {
-            node = node.right;
-            min = Math.min(min, node.data);
-        }
+        //  while(node.right != null && node.right.data < node.data) {
+        //     node = node.right;
+        //     min = Math.min(min, node.data);
+        // }
         return min;
     }
 }
