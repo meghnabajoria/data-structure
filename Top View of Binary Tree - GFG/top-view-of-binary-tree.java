@@ -131,35 +131,39 @@ class Solution
     static ArrayList<Integer> topView(Node root)
     {
         // add your code
-        ArrayList<Integer> list = new ArrayList<>();
-        if(root == null)
-            return list;
-        Map<Integer, Integer> map = new TreeMap<>();
+         ArrayList <Integer> list = new ArrayList<>();
         Queue<Pair> queue = new LinkedList<>();
+        Map<Integer, Integer> map = new TreeMap<>();
         queue.add(new Pair(root, 0));
-        while(!queue.isEmpty()) {
-            Pair it = queue.remove();
-            Node node = it.node;
-            int hd = it.v;
-            if(!map.containsKey(hd))
-                map.put(hd, node.data);
-            if(node.left != null)
-                queue.add(new Pair(node.left, hd-1));
-            if(node.right != null)
-                queue.add(new Pair(node.right, hd+1));
+        
+        while(!queue.isEmpty()){
+            Pair temp = queue.remove();
+            Node node = temp.node;
+            int line = temp.line;
+            if(!map.containsKey(line))
+                map.put(line, node.data);
+            
+            if(node.left != null){
+                queue.add(new Pair(node.left, line -1));
+            }
+            if(node.right != null){
+                queue.add(new Pair(node.right, line+1));
+            }
         }
-        for(Map.Entry<Integer, Integer> entry:map.entrySet()) {
+        
+        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
             list.add(entry.getValue());
         }
         return list;
+        
     }
 }
 
-class Pair {
+class Pair{
     Node node;
-    int v;
-    Pair(Node node, int v) {
+    int line;
+    Pair(Node node, int line){
         this.node = node;
-        this.v = v;
+        this.line = line;
     }
 }
