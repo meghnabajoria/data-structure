@@ -41,15 +41,21 @@ class Solution {
         // return arr[arr.length -2];
         
         // === SECOND
-        //int min = Integer.MAX_VALUE;
+
         int max = Integer.MIN_VALUE;
+        int second_max = Integer.MIN_VALUE;
         int i = 0;
         boolean all_equal = false;
         while(i < arr.length) {
-            // if(arr[i] < min)
-            //     min = arr[i];
-            if(arr[i] > max)
+            if(arr[i] > max){
+                second_max = max;
                 max = arr[i];
+            }
+                
+                
+            else if(arr[i] != max && arr[i] > second_max)
+                second_max = arr[i];
+                
             if(i!=0 && arr[i] == arr[i-1])
                 all_equal = true;
             else
@@ -59,18 +65,7 @@ class Solution {
         
         if(all_equal)
             return -1;
-        
-        i=0;
-        //int second_min = Integer.MAX_VALUE;
-        int second_max = Integer.MIN_VALUE;
-        
-        while(i< arr.length) {
-            // if(arr[i] > min && arr[i] < second_min)
-            //     second_min = arr[i];
-            if(arr[i] < max && arr[i] > second_max)
-                second_max = arr[i];
-            i++;
-        }
+            
         return second_max;
     }
 }
