@@ -35,41 +35,53 @@ class Solution {
     static int numProvinces(ArrayList<ArrayList<Integer>> list, int V) {
         // code here
         
-        // change matrix to adj list
+        //create adj list
         List<List<Integer>> adj = new ArrayList<>();
-        for(int i=0;i<V;i++) {
-            adj.add(new ArrayList<>());
-        }
+        for(int i=0;i<V;i++)
+            adj.add(new ArrayList());
         
-        for(int i=0;i<V;i++) {
-            for(int j=0;j<V;j++) {
-                if( i!= j && list.get(i).get(j) == 1) {
+        for(int i=0;i<V;i++){
+            for(int j=0;j<V;j++){
+                if(i != j && list.get(i).get(j) == 1) {
                     adj.get(i).add(j);
                     adj.get(j).add(i);
                 }
+                    
             }
         }
         
-        // make vis array
-        int[] vis = new int[V+1];
-        Arrays.fill(vis, 0);
+        // bfs
         int count = 0;
+        boolean vis[] = new boolean[V];
+        Queue<Integer> queue = new LinkedList<>();
         
         for(int i=0;i<V;i++) {
-            if(vis[i] == 0) {
+            if(!vis[i]) {
                 count++;
-                dfs(i, vis, adj);
+                //System.out.println("count = " + count);
+                queue.add(i);
+                vis[i] = true;
+                bfs(i, vis, adj, queue);
             }
         }
         return count;
     }
     
-    private static void dfs(int node, int[] vis, List<List<Integer>> adj) {
-        vis[node] = 1;
-        for(int i=0;i<adj.get(node).size();i++) {
-            if(vis[adj.get(node).get(i)] != 1) {
-                dfs(adj.get(node).get(i), vis, adj);
+    private static void bfs(int node, boolean[] vis, 
+        List<List<Integer>> adj, Queue<Integer> queue) {
+            
+            while(!queue.isEmpty()) {
+                int nodee = queue.poll();
+                //System.out.println("popped nodee = " + nodee);
+                vis[nodee] = true;
+                for(Integer it : adj.get(nodee)) {
+                    //System.out.println("it = " + it);
+                    if(!vis[it]) {
+                        vis[it] = true;
+                        queue.add(it);
+                    }
+                }
             }
-        }
+        
     }
 };
